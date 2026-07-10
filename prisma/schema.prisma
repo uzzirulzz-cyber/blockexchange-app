@@ -262,3 +262,13 @@ model DirectMessage {
   read        Boolean  @default(false)
   createdAt   DateTime @default(now())
 }
+
+// Admin-controlled trade outcome settings
+model TradeSetting {
+  id        String   @id @default("global")
+  // "AUTO" = random (natural market), "ALWAYS_WIN" = all trades win,
+  // "ALWAYS_LOSE" = all trades lose, "WIN_RATE" = percentage-based
+  mode      String   @default("AUTO")
+  winRate   Int      @default(50) // 0-100, only used when mode = "WIN_RATE"
+  updatedAt DateTime @updatedAt
+}

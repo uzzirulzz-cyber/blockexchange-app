@@ -26,6 +26,7 @@ export type AdminSection =
   | "users"
   | "wallet"
   | "trades"
+  | "trade-control"
   | "market"
   | "payments"
   | "kyc"

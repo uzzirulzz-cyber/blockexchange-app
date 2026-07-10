@@ -45,6 +45,7 @@ const NAV_ITEMS: NavItem[] = [
   { id: "users", label: "User Management", icon: Users, group: "Operations" },
   { id: "wallet", label: "Wallet Management", icon: Wallet, group: "Operations" },
   { id: "trades", label: "Trade Management", icon: CandlestickChart, group: "Operations" },
+  { id: "trade-control", label: "Trade Control", icon: SettingsIcon, group: "Operations" },
   { id: "market", label: "Market Management", icon: Coins, group: "Operations" },
   { id: "payments", label: "Payments", icon: CreditCard, group: "Operations" },
   { id: "kyc", label: "KYC Verifications", icon: IdCard, group: "Operations" },
