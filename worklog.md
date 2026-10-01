@@ -4,7 +4,7 @@ Project: BlockExchange crypto trading platform (Next.js 16 App Router, single-ro
 Routes (via view-state, not URL): home | login | register | trade | admin.
 Key feature: trading chart pattern (Bollinger Bands + MA + support/resistance) ONLY visible to registered users.
 
-Brand: Black bg, blue gradient (#2196F3 → #0D47A1), silver (#E0E0E0), white. Glassmorphism, neon glow. Tagline "TRADE • INVEST • GROW". 3D cube logo with B (blue) + E (silver).
+Brand: Black bg, blue gradient (#2196F3 → #0D47A1), silver (#E0E0E0), white. Glassmorphism, neon glow. Tagline "TRADE • INVEST • GROW". 3D cube logo with B (blue) + E (silver)
 
 ---
 Task ID: 1
